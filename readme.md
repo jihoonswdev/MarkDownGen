@@ -28,7 +28,7 @@
   https://api.github.com/licenses/[object Object]
 
   ## Github
-  3
+  https://github.com/jihoonswdev/MarkDownGen
 
   ## E-mail
-  3
+  jihoonswdev@gmail.com
