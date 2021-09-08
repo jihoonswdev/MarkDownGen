@@ -1,9 +1,8 @@
 // TODO: Include packages needed for this application
-const { Console } = require('console');
 const fs = require('fs');
 const inquirer = require ('inquirer');
 const generateMarkDown = require('./utils/generateMarkdown.js');
-const util = require('util');
+const path = require("path");
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -28,7 +27,7 @@ const questions = [
         message: 'How do you use your application?',
     },
     {
-        type: 'input',
+        type: 'list',
         name: 'license',
         message: 'What type of license are you using?',
         choices: ['MIT', 'APACHE 2.2', 'BSD']
@@ -48,25 +47,15 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    fs.writeFile('fileName', 'data', (error, data) => 
-    error ? console.error(error) : console.log(data))
+   return fs.writeFileSync(path.join(process.cwd(), fileName), data)
 };
-const writeFileAsync = util.promisify(writeToFile);
 
 // TODO: Create a function to initialize app
-async function init() {
-    try {
-        const userInput = await inquirer.prompt(questions);
-        console.log("Your responses: ", userInput);
-        
-        const markDown = generateMarkDown(userInput);
-        console.log(markDown);
-
-        await writeFileAsync('README.md', markDown);
-
-    } catch (error) {
-        console.log(error);
-    }
+ function init() {
+    inquirer.prompt(questions).then ((response) => {
+        writeToFile("README.md", generateMarkDown({ ...response }
+        ))
+    }) 
     
 };
 
